@@ -1,0 +1,11 @@
+{
+  "name": "@features/recoil",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "recoil": "^0.1.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1"
+  }
+}

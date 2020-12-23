@@ -1,0 +1,8 @@
+{
+  "name": "@features/apollo",
+  "version": "1.0.0",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^17.0.1"
+  }
+}

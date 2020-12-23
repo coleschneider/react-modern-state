@@ -1,0 +1,41 @@
+{
+  "name": "react-modern-state",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arvigeus/react-modern-state.git"
+  },
+  "license": "ISC",
+  "workspaces": [
+    "src/features/*"
+  ],
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "jsonwebtoken": "^8.5.1",
+    "next": "^10.0.4",
+    "next-auth": "^3.1.0",
+    "next-seo": "^4.17.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-error-boundary": "^3.1.0",
+    "react-github-corner": "^2.5.0",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@47ng/check-env": "^2.0.2",
+    "@next/bundle-analyzer": "^10.0.4",
+    "@types/node": "^14.14.14",
+    "@types/react": "^17.0.0",
+    "next-compose-plugins": "^2.2.1",
+    "next-pwa": "^5.0.0",
+    "next-svgr": "^0.0.2",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
+  }
+}

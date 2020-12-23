@@ -1,0 +1,31 @@
+{
+  "title": "React Modern State Management",
+  "titleTemplate": "%s | tenent",
+  "description": "Compare React state manegement libraries",
+  "additionalMetaTags": [
+    { "property": "author", "content": "Nikolay Stoynov" },
+    {
+      "property": "keywords",
+      "content": "react,redux,mobx,apollo"
+    }
+  ],
+  "twitter": {
+    "cardType": "summary",
+    "handle": "arvigeus",
+    "site": "arvigeus"
+  },
+  "openGraph": {
+    "type": "website",
+    "site_name": "arvigeus",
+    "profile": {
+      "firstName": "arvigeus"
+    },
+    "images": [
+      {
+        "url": "/images/og-cover.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    ]
+  }
+}

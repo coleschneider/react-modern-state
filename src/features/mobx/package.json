@@ -1,0 +1,13 @@
+{
+  "name": "@features/mobx",
+  "version": "1.0.0",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^17.0.1"
+  },
+  "dependencies": {
+    "mobx": "^6.0.4",
+    "mobx-react-lite": "^3.1.6",
+    "mobx-state-tree": "^4.0.2"
+  }
+}

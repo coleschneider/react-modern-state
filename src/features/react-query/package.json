@@ -1,0 +1,11 @@
+{
+  "name": "@features/react-query",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "react-query": "^3.4.0"
+  },
+  "peerDependencies": {
+    "react": "^17.0.1"
+  }
+}
