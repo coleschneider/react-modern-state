@@ -6,26 +6,31 @@
     "url": "https://github.com/arvigeus/react-modern-state.git"
   },
   "license": "ISC",
-  "workspaces": [
-    "src/features/*"
-  ],
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
+    "@storybook/addon-actions": "^6.1.11",
+    "@storybook/addon-essentials": "^6.1.11",
+    "@storybook/addon-links": "^6.1.11",
+    "@storybook/react": "^6.1.11",
     "jsonwebtoken": "^8.5.1",
     "next": "^10.0.4",
     "next-auth": "^3.1.0",
     "next-seo": "^4.17.0",
+    "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-error-boundary": "^3.1.0",
     "react-github-corner": "^2.5.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "ws": "^7.4.1"
   },
   "devDependencies": {
     "@47ng/check-env": "^2.0.2",

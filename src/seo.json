@@ -6,7 +6,7 @@
     { "property": "author", "content": "Nikolay Stoynov" },
     {
       "property": "keywords",
-      "content": "react,redux,mobx,apollo"
+      "content": "apollo,mobx,react,react-query,recoil,redux,relay,rxjs,swr,urql"
     }
   ],
   "twitter": {

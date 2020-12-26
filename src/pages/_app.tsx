@@ -1,5 +1,5 @@
 // import App from "next/app";
-import React, { StrictMode, useCallback } from "react";
+import React, { StrictMode, useCallback, useEffect } from "react";
 import { AppProps, NextWebVitalsMetric /* , AppContext */ } from "next/app";
 import { DefaultSeo, SocialProfileJsonLd } from "next-seo";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
@@ -11,6 +11,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const onAppReset = useCallback(() => {
     // reset the state of your app so the error doesn't happen again
     window.location.reload();
+  }, []);
+
+  useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector("#jss-server-side");
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
   }, []);
 
   return (
@@ -27,17 +35,15 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       />
 
-      <StrictMode>
-        <ErrorBoundary
-          FallbackComponent={ErrorFallback}
-          onReset={onAppReset}
-          onError={errorHandler}
-        >
-          <AppWrapper>
-            <Component {...pageProps} />
-          </AppWrapper>
-        </ErrorBoundary>
-      </StrictMode>
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={onAppReset}
+        onError={errorHandler}
+      >
+        <AppWrapper>
+          <Component {...pageProps} />
+        </AppWrapper>
+      </ErrorBoundary>
 
       <style jsx global>{`
         html,
