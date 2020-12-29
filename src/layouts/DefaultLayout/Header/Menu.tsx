@@ -1,4 +1,5 @@
 import { useState, ComponentType, ChangeEvent } from "react";
+import Link from "next/link";
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import AppBar from "@material-ui/core/AppBar";
@@ -133,13 +134,15 @@ export const HamburgerMenu = () => {
       </Grid>
       <Drawer anchor="left" open={isOpen} onClose={() => setOpen(false)}>
         <List>
-          {navigation.map(({ name, icon: Icon }) => (
-            <ListItem button key={name}>
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItem>
+          {navigation.map(({ name, path, icon: Icon }) => (
+            <Link href={path} key={name}>
+              <ListItem button>
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+                <ListItemText primary={name} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>

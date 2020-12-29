@@ -20,6 +20,7 @@
     "@storybook/addon-essentials": "^6.1.11",
     "@storybook/addon-links": "^6.1.11",
     "@storybook/react": "^6.1.11",
+    "framer-motion": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "next": "^10.0.4",
     "next-auth": "^3.1.0",
