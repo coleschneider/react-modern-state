@@ -4,22 +4,28 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import GithubCorner from "react-github-corner";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { repository } from "../../package.json";
 
-import ApolloLogo from "features/apollo/logo.svg";
-import MobXLogo from "features/mobx/logo.svg";
-import ReactLogo from "features/react/logo.svg";
-import ReactQueryLogo from "features/react-query/logo.svg";
-import RecoilLogo from "features/recoil/logo.svg";
-import ReduxLogo from "features/redux/logo.svg";
-import RelayLogo from "features/relay/logo.svg";
-import RxJsLogo from "features/rxjs/logo.svg";
-import SwrLogo from "features/swr/logo.svg";
-import UrqlLogo from "features/urql/logo.svg";
+import ApolloLogo from "packages/apollo/logo.svg";
+import MobXLogo from "packages/mobx/logo.svg";
+import ReactLogo from "packages/react/logo.svg";
+import ReactQueryLogo from "packages/react-query/logo.svg";
+import RecoilLogo from "packages/recoil/logo.svg";
+import ReduxLogo from "packages/redux/logo.svg";
+import RelayLogo from "packages/relay/logo.svg";
+import RxJsLogo from "packages/rxjs/logo.svg";
+import SwrLogo from "packages/swr/logo.svg";
+import UrqlLogo from "packages/urql/logo.svg";
 
 const useStyles = makeStyles({
   label: { color: "#fff" },
   container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+    flexWrap: "wrap",
     backgroundColor: "#282c34",
     minWidth: "100vw",
     minHeight: "100vh",
@@ -41,14 +47,7 @@ export default function Home() {
   const classes = useStyles();
   return (
     <>
-      <Box
-        display="flex"
-        className={classes.container}
-        alignItems="center"
-        justifyContent="space-around"
-        flexDirection="row"
-        flexWrap="wrap"
-      >
+      <motion.div className={classes.container} exit={{ opacity: 0 }}>
         <Library
           name="Apollo"
           logo={ApolloLogo}
@@ -98,7 +97,7 @@ export default function Home() {
           path="/dashboard"
           color="#6d7599"
         />
-      </Box>
+      </motion.div>
       <GithubCorner href={repository.url} />
     </>
   );
