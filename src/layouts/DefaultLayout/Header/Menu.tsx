@@ -29,7 +29,7 @@ type NavigationProps = {
   icon: ComponentType;
 };
 
-const navigation: Array<NavigationProps> = [
+export const navigation: Array<NavigationProps> = [
   {
     name: "Dashboard",
     path: "/dashboard",

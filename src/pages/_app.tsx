@@ -3,11 +3,14 @@ import React, { StrictMode, useCallback, useEffect } from "react";
 import { AppProps, NextWebVitalsMetric /* , AppContext */ } from "next/app";
 import { DefaultSeo, SocialProfileJsonLd } from "next-seo";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
 
 import defaultSeoConfig from "seo.json";
 import AppWrapper from "AppWrapper";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const onAppReset = useCallback(() => {
     // reset the state of your app so the error doesn't happen again
     window.location.reload();
@@ -41,7 +44,9 @@ export default function App({ Component, pageProps }: AppProps) {
         onError={errorHandler}
       >
         <AppWrapper>
-          <Component {...pageProps} />
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.route} />
+          </AnimatePresence>
         </AppWrapper>
       </ErrorBoundary>
 
