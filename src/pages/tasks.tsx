@@ -1,5 +1,10 @@
 import DefaultLayout from "layouts/DefaultLayout";
+import Tasks from "features/Tasks";
 
-export default function Tasks() {
-  return <DefaultLayout>Tasks</DefaultLayout>;
+export default function TasksPage() {
+  return (
+    <DefaultLayout>
+      <Tasks />
+    </DefaultLayout>
+  );
 }
