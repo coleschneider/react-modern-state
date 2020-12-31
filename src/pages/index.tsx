@@ -66,11 +66,7 @@ export default function Home() {
           path="/dashboard"
           color="#00d8ff"
         />
-        <Library
-          name="React Query"
-          logo={ReactQueryLogo}
-          path="-dashboard/tasks"
-        />
+        <Library name="React Query" logo={ReactQueryLogo} path="/dashboard" />
         <Library
           name="Recoil"
           logo={RecoilLogo}
