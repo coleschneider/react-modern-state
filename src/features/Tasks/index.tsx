@@ -1,26 +1,45 @@
+import Paper from "@material-ui/core/Paper";
+import { TaskExcerptType, TaskColor } from "types/task";
 import TasksHeader from "./TasksHeader";
 import TasksBody from "./TasksBody";
-import { Card, CardHeader } from "components/Card";
 import useStyles from "./styles";
 
 export default function Tasks() {
   const classes = useStyles();
-
   return (
-    <>
-      <Card className={classes.body}>
-        <CardHeader>
-          <TasksHeader />
-        </CardHeader>
-        <TasksBody data={data} />
-      </Card>
-    </>
+    <Paper className={classes.body}>
+      <TasksHeader />
+      <TasksBody data={data} />
+    </Paper>
   );
 }
 
-const data = new Array(10000).fill(true).map((elt, index) => ({
-  index,
-  firstName: "jane" + index,
-  lastName: "doe" + index,
-  age: 25 + (index % 5),
+const dueDate = new Date(1999, 2, 2);
+const remindMeAtDate = new Date(1999, 1, 2);
+const colors: TaskColor[] = [
+  null,
+  "red",
+  "green",
+  "blue",
+  "purple",
+  "pink",
+  "indigo",
+  "cyan",
+  "teal",
+  "lime",
+  "amber",
+  "orange",
+  "brown",
+  "grey",
+];
+
+const data: TaskExcerptType[] = new Array(20).fill(true).map((elt, index) => ({
+  id: "idx" + index,
+  title: "Task " + index,
+  description: index % 5 ? "Description" : null,
+  tags: null,
+  color: colors[index % 14],
+  dueDate: index % 4 ? dueDate : null,
+  remindMeAt: index % 8 ? remindMeAtDate : null,
+  completedAt: null,
 }));
