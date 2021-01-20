@@ -23,9 +23,7 @@ const useStyles = makeStyles({
   container: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    justifyContent: "center",
     backgroundColor: "#282c34",
     minWidth: "100vw",
     minHeight: "100vh",
@@ -48,51 +46,59 @@ export default function Home() {
   return (
     <>
       <motion.div className={classes.container} exit={{ opacity: 0 }}>
-        <Library
-          name="Apollo"
-          logo={ApolloLogo}
-          path="/dashboard"
-          color="#586a7f"
-        />
-        <Library
-          name="MobX"
-          logo={MobXLogo}
-          path="/dashboard"
-          color="#de5c16"
-        />
-        <Library
-          name="Context + Hooks"
-          logo={ReactLogo}
-          path="/dashboard"
-          color="#00d8ff"
-        />
-        <Library name="React Query" logo={ReactQueryLogo} path="/dashboard" />
-        <Library
-          name="Recoil"
-          logo={RecoilLogo}
-          path="/dashboard"
-          color="#3578e5"
-        />
-        <Library
-          name="Redux"
-          logo={ReduxLogo}
-          path="/dashboard"
-          color="#764abc"
-        />
-        <Library
-          name="Relay"
-          logo={RelayLogo}
-          path="/dashboard"
-          color="#f26b00"
-        />
-        <Library name="RxJs" logo={RxJsLogo} path="/dashboard" />
-        <Library name="SWR" logo={SwrLogo} path="/dashboard" color="#fff" />
-        <Library
-          name="URQL"
-          logo={UrqlLogo}
-          path="/dashboard"
-          color="#6d7599"
-        />
+        <Box
+          maxWidth="1300px"
+          display="flex"
+          flexDirection="row"
+          flexWrap="wrap"
+          justifyContent="space-around"
+        >
+          <Library
+            name="Apollo"
+            logo={ApolloLogo}
+            path="/dashboard"
+            color="#586a7f"
+          />
+          <Library
+            name="MobX"
+            logo={MobXLogo}
+            path="/dashboard"
+            color="#de5c16"
+          />
+          <Library
+            name="Context + Hooks"
+            logo={ReactLogo}
+            path="/dashboard"
+            color="#00d8ff"
+          />
+          <Library name="React Query" logo={ReactQueryLogo} path="/dashboard" />
+          <Library
+            name="Recoil"
+            logo={RecoilLogo}
+            path="/dashboard"
+            color="#3578e5"
+          />
+          <Library
+            name="Redux"
+            logo={ReduxLogo}
+            path="/dashboard"
+            color="#764abc"
+          />
+          <Library
+            name="Relay"
+            logo={RelayLogo}
+            path="/dashboard"
+            color="#f26b00"
+          />
+          <Library name="RxJs" logo={RxJsLogo} path="/dashboard" />
+          <Library name="SWR" logo={SwrLogo} path="/dashboard" color="#fff" />
+          <Library
+            name="URQL"
+            logo={UrqlLogo}
+            path="/dashboard"
+            color="#6d7599"
+          />
+        </Box>
       </motion.div>
       <GithubCorner href={repository.url} />
     </>
