@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, FC } from "react";
+import { createContext, useContext, useState, useEffect, FC } from "react";
 import { PaletteType } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
@@ -55,9 +55,14 @@ const ThemeModeContext = createContext<
 
 export const ThemeProvider: FC = ({ children }) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [themeVariant, setThemeVariant] = useState<PaletteType>(() =>
-    prefersDarkMode ? "dark" : "light"
-  );
+  const [themeVariant, setThemeVariant] = useState<PaletteType>(() => {
+    const colorMode = window.localStorage.getItem("colorMode") as PaletteType;
+    return colorMode || prefersDarkMode ? "dark" : "light";
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem("colorMode", themeVariant);
+  }, [themeVariant]);
 
   return (
     <ThemeModeContext.Provider value={[themeVariant, setThemeVariant]}>
