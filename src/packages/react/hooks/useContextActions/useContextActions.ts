@@ -82,16 +82,11 @@ export function createContext<
   TAction extends keyof T,
   TPayload extends PayloadType<TState, T[TAction]>
 >(
-  name: string,
   initialState: TState,
   reducers: T
 ): Context<[TState, ReducersActions<TState, T>]> {
   const actions = {};
-  for (const type of Object.keys(reducers)) {
-    actions[type] = (_: TPayload) => {
-      throw new Error(`Missing context provider: ${name}`);
-    };
-  }
+  for (const type of Object.keys(reducers)) actions[type] = (_: TPayload) => {};
 
   return createReactContext([
     initialState,
