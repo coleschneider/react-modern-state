@@ -9,7 +9,7 @@ export class TaskResolver {
     const length = Math.floor(Math.random() * 20) + 1;
     const tasks = [];
     for (let i = 1; i < length; i++) {
-      tasks.push(randomTask({ index: i }));
+      tasks.push(randomTask({ index: i, userId: 0 }));
     }
     return tasks;
   }
