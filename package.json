@@ -20,13 +20,15 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@storybook/addon-actions": "^6.1.14",
-    "@storybook/addon-essentials": "^6.1.14",
-    "@storybook/addon-links": "^6.1.14",
-    "@storybook/react": "^6.1.14",
+    "@types/faker": "^5.1.5",
+    "apollo-server-micro": "^2.19.2",
+    "axios": "^0.21.1",
+    "browser-monads": "^1.0.0",
+    "class-validator": "^0.13.1",
     "clsx": "^1.1.1",
     "framer": "^1.2.13",
     "framer-motion": "^3.2.1",
+    "graphql": "^15.5.0",
     "immer": "^8.0.1",
     "jsonwebtoken": "^8.5.1",
     "next": "^10.0.5",
@@ -39,12 +41,17 @@
     "react-github-corner": "^2.5.0",
     "react-table": "^7.6.3",
     "react-virtual": "^2.3.2",
-    "styled-components": "^5.2.1",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1",
     "ws": "^7.4.2"
   },
   "devDependencies": {
     "@47ng/check-env": "^2.0.2",
     "@next/bundle-analyzer": "^10.0.5",
+    "@storybook/addon-actions": "^6.1.14",
+    "@storybook/addon-essentials": "^6.1.14",
+    "@storybook/addon-links": "^6.1.14",
+    "@storybook/react": "^6.1.14",
     "@testing-library/react": "^11.2.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.22",
@@ -72,5 +79,32 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "typescript": "^4.1.3"
+  },
+  "comments": {
+    "dependencies": {
+      "ui": [
+        "@material-ui/core",
+        "@material-ui/icons",
+        "framer",
+        "framer-motion"
+      ],
+      "server": [
+        "graphql",
+        "apollo-server-micro",
+        [
+          "type-graphql",
+          "reflect-metadata",
+          "class-validator"
+        ],
+        "pg"
+      ],
+      "auth": [
+        "next-auth",
+        "jsonwebtoken"
+      ],
+      "react": [
+        "immer"
+      ]
+    }
   }
 }

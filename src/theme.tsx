@@ -6,6 +6,7 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { window } from "browser-monads";
 
 export const lightTheme = createMuiTheme({
   palette: {

@@ -8,7 +8,8 @@ export type TaskType = {
   dueDate: Date | null;
   remindMeAt: Date | null;
   completedAt: Date | null;
-  userId: string;
+  index: number;
+  userId: number;
 };
 
 export type TaskColor =
@@ -25,5 +26,3 @@ export type TaskColor =
   | "orange"
   | "brown"
   | "grey";
-
-export type TaskExcerptType = Omit<TaskType, "startDate" | "userId">;
