@@ -1,11 +1,12 @@
-import { Resolver, Query } from "type-graphql";
+import { Resolver, Query, Ctx } from "type-graphql";
 import { Task } from "../entities";
 import { randomTask } from "server/utils/random";
 
 @Resolver(Task)
 export class TaskResolver {
   @Query(() => [Task], { nullable: true })
-  tasks() {
+  tasks(@Ctx() context: any) {
+    console.log(context);
     const length = Math.floor(Math.random() * 20) + 1;
     const tasks = [];
     for (let i = 1; i < length; i++) {

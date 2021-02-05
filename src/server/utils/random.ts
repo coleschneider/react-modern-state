@@ -19,12 +19,12 @@ export function randomTask({
   const dateEnd = maybe(faker.date.future(null, dateStart));
   const dateRemind = maybe(
     dateEnd
-      ? faker.date.between(dateStart, dateStart)
+      ? faker.date.between(dateStart, dateEnd)
       : faker.date.future(null, dateStart)
   );
   const dateCompleted = maybe(
     dateEnd
-      ? faker.date.between(dateStart, dateStart)
+      ? faker.date.between(dateStart, dateEnd)
       : faker.date.future(null, dateStart)
   );
 
