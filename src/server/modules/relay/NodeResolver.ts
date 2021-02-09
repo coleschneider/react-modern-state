@@ -11,7 +11,7 @@ import {
   Root,
 } from "type-graphql";
 
-import { Context } from "../interfaces/Context";
+import { Context } from "../../interfaces/Context";
 import { Node } from "./Node";
 
 @Resolver(() => Node)
@@ -26,12 +26,12 @@ export class NodeResolver {
 
   private async fetcher(
     globalId: string,
-    { repositories, database }: Context
+    { connection }: Context
   ): Promise<Node | undefined> {
     const { type, id } = fromGlobalId(globalId);
 
     //const repository = database.getRepository(type);
-    const repository = database.getRepository<Node>(type);
+    const repository = connection.getRepository<Node>(type);
 
     if (!repository) {
       throw new UserInputError(

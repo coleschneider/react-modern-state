@@ -1,5 +1,6 @@
 import { Connection, getConnectionManager, ConnectionOptions } from "typeorm";
-import { User, Task } from "server/entities";
+import { Task } from "server/modules/Task/Task.entity";
+import { User } from "server/modules/User/User.entity";
 
 export const connectionOptions: ConnectionOptions = {
   type: "postgres",

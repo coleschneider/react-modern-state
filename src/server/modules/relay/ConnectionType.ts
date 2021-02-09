@@ -1,5 +1,5 @@
 import { Edge } from "graphql-relay";
-import { Field, ClassType, ObjectType } from "type-graphql";
+import { Field, ClassType, ObjectType, Int } from "type-graphql";
 import { PageInfo } from "./PageInfo";
 import { Connection as ConnectionInterface } from "./Connection";
 
@@ -22,7 +22,7 @@ export function ConnectionType<
     @Field(() => PageInfo, { description: "Information to aid in pagination." })
     pageInfo!: PageInfo;
 
-    @Field({
+    @Field(() => Int, {
       description: "Identifies the total count of items in the connection.",
     })
     readonly totalCount!: number;

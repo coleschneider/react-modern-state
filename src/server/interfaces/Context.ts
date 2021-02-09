@@ -1,8 +1,12 @@
-import { Connection, Repository } from "typeorm";
-
-import { Node } from "../relay/Node";
+import { NextApiRequest } from "next";
+import { Connection } from "typeorm";
+import { UserDataLoaderType } from "server/modules/User/User.dataloader";
 
 export interface Context {
-  database: Connection;
-  repositories: Record<string, Repository<Node>>;
+  req: NextApiRequest;
+  userId: number;
+  connection: Connection;
+  loaders: {
+    user: UserDataLoaderType;
+  };
 }

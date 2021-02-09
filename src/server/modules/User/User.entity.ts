@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryColumn, OneToMany } from "typeorm";
+import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { Task } from "./Task";
+import { Task } from "server/modules/Task/Task.entity";
 
 @Entity("users")
 @ObjectType()
-export class User {
+export class User extends BaseEntity {
   @PrimaryColumn("int")
   @Field(() => ID)
   id!: number;
@@ -14,7 +14,6 @@ export class User {
   name?: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  @Field(() => String)
   email?: string;
 
   @Column({ type: "timestamptz", nullable: true })

@@ -4,7 +4,7 @@ import { Min } from "class-validator";
 import { CannotWith } from "server/validators/CannotWith";
 
 @ArgsType()
-export class ConnectionArgs implements Relay.ConnectionArguments {
+export class ConnectionArguments implements Relay.ConnectionArguments {
   @Field(() => String, {
     nullable: true,
     description:

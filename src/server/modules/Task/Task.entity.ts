@@ -1,11 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+} from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { User } from "./User";
+import { User } from "server/modules/User/User.entity";
 import { TaskColor } from "types/task";
 
 @Entity("tasks")
 @ObjectType()
-export class Task {
+export class Task extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id: string;
@@ -45,6 +51,9 @@ export class Task {
   @Column("int")
   @Field(() => Number)
   index: number;
+
+  @Column("int")
+  userId: number;
 
   @ManyToOne(() => User, (user) => user.tasks)
   user: User;

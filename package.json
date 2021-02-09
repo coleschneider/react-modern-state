@@ -24,6 +24,7 @@
     "browser-monads": "^1.0.0",
     "class-validator": "^0.13.1",
     "clsx": "^1.1.1",
+    "dataloader": "^2.0.0",
     "framer": "^1.2.13",
     "framer-motion": "^3.2.1",
     "graphql": "^15.5.0",
@@ -54,7 +55,6 @@
     "@storybook/addon-links": "^6.1.14",
     "@storybook/react": "^6.1.14",
     "@testing-library/react": "^11.2.3",
-    "@types/faker": "^5.1.5",
     "@types/graphql-relay": "^0.6.0",
     "@types/jest": "^26.0.20",
     "@types/next-auth": "^3.1.24",
@@ -75,7 +75,6 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.1",
-    "faker": "^5.1.0",
     "jest": "^26.6.3",
     "jest-watch-typeahead": "^0.6.1",
     "next-compose-plugins": "^2.2.1",
@@ -105,10 +104,7 @@
           "graphql-relay",
           "@types/graphql-relay"
         ],
-        [
-          "faker",
-          "@types/faker"
-        ],
+        "dtataloader",
         "pg"
       ],
       "auth": [
