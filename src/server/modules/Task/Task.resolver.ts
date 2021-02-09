@@ -13,6 +13,24 @@ export class TaskResolver {
     return user.load(task.userId);
   }
 
+  @FieldResolver(() => Task)
+  parent(
+    @Root() task: Task | null,
+    @Ctx() { loaders: { task: taskLoader } }: Context
+  ) {
+    if (!task.parentId) return null;
+    return taskLoader.load(task.parentId);
+  }
+
+  @FieldResolver(() => [Task])
+  subtasks(
+    @Root() task: Task | null,
+    @Ctx() { loaders: { subtask } }: Context
+  ) {
+    if (!task.parentId) return null;
+    return subtask.load(task.id);
+  }
+
   @Query(() => TaskConnection)
   tasks(
     @Args(() => ConnectionArguments) args: ConnectionArguments,
