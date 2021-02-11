@@ -9,7 +9,7 @@ export const connectionOptions: ConnectionOptions = {
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  ...(process.env.NODE_ENV !== "production" && {
+  ...(process.env.DATABASE_SSL === "true" && {
     ssl: true,
     extra: {
       ssl: {
