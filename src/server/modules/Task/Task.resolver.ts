@@ -1,8 +1,21 @@
-import { Resolver, FieldResolver, Query, Root, Args, Ctx } from "type-graphql";
+import {
+  Resolver,
+  FieldResolver,
+  Query,
+  Mutation,
+  Root,
+  Arg,
+  Args,
+  Ctx,
+} from "type-graphql";
+import { Between } from "typeorm";
+import { UserInputError, AuthenticationError } from "apollo-server-micro";
 import { Context } from "server/interfaces/Context";
 import { User } from "server/modules/User/User.entity";
 import { Task } from "./Task.entity";
 import { TaskConnection } from "./Task.connection";
+import { TaskIdInput, MoveTaskInput, ToggleTaskInput } from "./Task.input";
+import { MoveTaskPayload, TaskPayload } from "./Task.payload";
 import { ConnectionArguments } from "server/modules/relay/ConnectionArguments";
 import { connectionFromRepository } from "server/modules/relay/ConnectionFactory";
 
@@ -22,23 +35,122 @@ export class TaskResolver {
     return taskLoader.load(task.parentId);
   }
 
-  @FieldResolver(() => [Task])
+  @FieldResolver(() => [Task], { nullable: true })
   subtasks(
     @Root() task: Task | null,
     @Ctx() { loaders: { subtask } }: Context
   ) {
-    if (!task.parentId) return null;
     return subtask.load(task.id);
   }
 
   @Query(() => TaskConnection)
   tasks(
     @Args(() => ConnectionArguments) args: ConnectionArguments,
-    @Ctx() context: Context
+    @Ctx() { userId, connection }: Context
   ) {
-    return connectionFromRepository(
-      args,
-      context.connection.getRepository("tasks")
-    );
+    return connectionFromRepository(args, connection.getRepository("tasks"), {
+      where: { userId: userId || 1, parentId: null },
+      order: { index: "ASC" },
+    });
+  }
+
+  @Query(() => Task)
+  async task(
+    @Arg("id", () => String) id: string,
+    @Ctx() { userId, connection }: Context
+  ) {
+    const repository = connection.getRepository<Task>("tasks");
+    return await repository.findOne({
+      where: { id: id, userId: userId || 1 },
+    });
+  }
+
+  // Anonymous users are allowed to move tasks for demo purposes
+  @Mutation(() => MoveTaskPayload)
+  async moveTask(
+    @Arg("input", () => MoveTaskInput) { id, index }: MoveTaskInput,
+    @Ctx() { connection, userId }: Context
+  ): Promise<MoveTaskPayload> {
+    if (index < 1) throw new UserInputError(`invalid index ${index}`);
+
+    const repository = connection.getRepository<Task>("tasks");
+
+    const task = await repository.findOne({
+      where: { id: id, userId: userId || 1 },
+    });
+
+    // Task is moved to same position
+    if (task.index === index) return { tasks: [task] };
+
+    var result = await repository
+      .createQueryBuilder()
+      .update(Task)
+      .set({
+        index: () =>
+          `CASE WHEN id = '${id}' THEN ${index} ELSE index ${
+            task.index > index ? "+" : "-"
+          } 1 END`,
+      })
+      .where({
+        // Only tasks by the same user, at the same level, between the range of changed indexes
+        userId: userId || 1,
+        parentId: task.parentId,
+        index: Between(
+          Math.min(task.index, index),
+          Math.max(task.index, index)
+        ),
+      })
+      .returning("*")
+      .execute();
+
+    return { tasks: result.raw as Task[] };
+  }
+
+  // Anonymous users are allowed to toggle tasks for demo purposes
+  @Mutation(() => TaskPayload)
+  async toggleTask(
+    @Arg("input", () => ToggleTaskInput) { id, completed }: ToggleTaskInput,
+    @Ctx() { connection, userId }: Context
+  ): Promise<TaskPayload> {
+    const repository = connection.getRepository<Task>("tasks");
+
+    var result = await repository
+      .createQueryBuilder()
+      .update(Task)
+      .set({ completedAt: completed ? new Date() : null })
+      .where({
+        id,
+        userId: userId || 1,
+      })
+      .returning("*")
+      .execute();
+
+    if (!result.affected)
+      throw new UserInputError(`Cannot find task with id \`${id}\``);
+
+    return { task: result.raw[0] as Task };
+  }
+
+  @Mutation(() => TaskPayload)
+  async removeTask(
+    @Arg("input", () => TaskIdInput) { id }: TaskIdInput,
+    @Ctx() { connection, userId }: Context
+  ): Promise<TaskPayload> {
+    if (!userId) throw new AuthenticationError("Not logged in");
+
+    const repository = connection.getRepository<Task>("tasks");
+
+    var result = await repository
+      .createQueryBuilder()
+      .delete()
+      .from(Task)
+      .where({ id, userId })
+      .returning("*")
+      .execute();
+
+    if (!result.affected)
+      throw new UserInputError(`Cannot find task with id \`${id}\``);
+
+    return { task: result.raw[0] as Task };
   }
 }

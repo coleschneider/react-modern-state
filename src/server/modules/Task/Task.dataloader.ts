@@ -24,9 +24,8 @@ export const createSubtasksLoader = (): SubtasksDataLoaderType =>
     });
     const taskIdToSubtasks: Record<string, Task[]> = {};
     tasks.forEach((t) => {
-      let parent = taskIdToSubtasks[t.parentId];
-      if (!parent) parent = [];
-      parent.push(t);
+      if (!taskIdToSubtasks[t.parentId]) taskIdToSubtasks[t.parentId] = [];
+      taskIdToSubtasks[t.parentId].push(t);
     });
 
     return taskIds.map((taskId) => taskIdToSubtasks[taskId]);

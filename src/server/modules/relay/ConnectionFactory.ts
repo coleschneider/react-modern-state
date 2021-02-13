@@ -3,17 +3,19 @@ import {
   getOffsetWithDefault,
   offsetToCursor,
 } from "graphql-relay";
-import { Repository } from "typeorm";
+import { FindOneOptions, Repository } from "typeorm";
 
 import { Connection } from "./Connection";
 
 export async function connectionFromRepository<T>(
   args: ConnectionArguments,
-  repository: Repository<T>
+  repository: Repository<T>,
+  options?: Pick<FindOneOptions<T>, "where" | "order">
 ): Promise<Connection<T>> {
   const { before, after, first, last } = args;
+  const { where, order } = options || {};
 
-  const totalCount = await repository.count();
+  const totalCount = await repository.count({ where });
 
   // offsets
   const beforeOffset = getOffsetWithDefault(before, totalCount);
@@ -35,7 +37,7 @@ export async function connectionFromRepository<T>(
   const take = Math.max(endOffset - startOffset, 1); // sql limit
 
   // records
-  const entities = await repository.find({ skip, take });
+  const entities = await repository.find({ skip, take, where, order });
 
   const edges = entities.map((entity, index) => ({
     cursor: offsetToCursor(startOffset + index),
