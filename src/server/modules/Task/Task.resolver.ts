@@ -150,16 +150,14 @@ export class TaskResolver {
       .createQueryBuilder()
       .delete()
       .from(Task)
-      // Delete task and subtasks
-      .where([{ id, userId }, { parentId: id }])
+      .where({ id, userId })
       .returning("*")
       .execute();
 
     if (!result.affected)
       throw new UserInputError(`Cannot find task with id \`${id}\``);
 
-    const deleted = result.raw as Task[];
-    const deletedTask = deleted.find((t) => t.id === id);
+    const deleted = result.raw[0] as Task;
 
     // Reduce all following tasks' indexes
     result = await repository
@@ -169,8 +167,8 @@ export class TaskResolver {
       .where({
         id,
         userId,
-        parentId: deletedTask.parentId,
-        index: MoreThan(deletedTask.index),
+        parentId: deleted.parentId,
+        index: MoreThan(deleted.index),
       })
       .returning("*")
       .execute();

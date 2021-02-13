@@ -16,8 +16,8 @@ export class TaskPayload {
 
 @ObjectType()
 export class DeleteTaskPayload {
-  @Field(() => [Task], { nullable: true })
-  readonly deleted?: Task[];
+  @Field(() => Task, { nullable: true })
+  readonly deleted?: Task;
 
   @Field(() => [Task], { nullable: true })
   readonly updated?: Task[];

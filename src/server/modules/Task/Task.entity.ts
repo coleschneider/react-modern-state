@@ -59,7 +59,7 @@ export class Task extends BaseEntity {
   @ManyToOne(() => Task, (task) => task.subtasks, { nullable: true })
   parent: Task;
 
-  @OneToMany(() => Task, (task) => task.parent)
+  @OneToMany(() => Task, (task) => task.parent, { onDelete: "CASCADE" })
   subtasks: Task[];
 
   @Column("int")
