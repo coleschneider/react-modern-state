@@ -8,14 +8,14 @@ import {
   Args,
   Ctx,
 } from "type-graphql";
-import { Between } from "typeorm";
+import { Between, MoreThan } from "typeorm";
 import { UserInputError, AuthenticationError } from "apollo-server-micro";
 import { Context } from "server/interfaces/Context";
 import { User } from "server/modules/User/User.entity";
 import { Task } from "./Task.entity";
 import { TaskConnection } from "./Task.connection";
 import { TaskIdInput, MoveTaskInput, ToggleTaskInput } from "./Task.input";
-import { MoveTaskPayload, TaskPayload } from "./Task.payload";
+import { TasksPayload, TaskPayload, DeleteTaskPayload } from "./Task.payload";
 import { ConnectionArguments } from "server/modules/relay/ConnectionArguments";
 import { connectionFromRepository } from "server/modules/relay/ConnectionFactory";
 
@@ -66,11 +66,11 @@ export class TaskResolver {
   }
 
   // Anonymous users are allowed to move tasks for demo purposes
-  @Mutation(() => MoveTaskPayload)
+  @Mutation(() => TasksPayload)
   async moveTask(
     @Arg("input", () => MoveTaskInput) { id, index }: MoveTaskInput,
     @Ctx() { connection, userId }: Context
-  ): Promise<MoveTaskPayload> {
+  ): Promise<TasksPayload> {
     if (index < 1) throw new UserInputError(`invalid index ${index}`);
 
     const repository = connection.getRepository<Task>("tasks");
@@ -82,7 +82,13 @@ export class TaskResolver {
     // Task is moved to same position
     if (task.index === index) return { tasks: [task] };
 
-    var result = await repository
+    // Index is greater than available tasks
+    const totalCount = await repository.count({
+      where: { id: id, userId: userId || 1 },
+    });
+    if (index > totalCount) index = totalCount;
+
+    const result = await repository
       .createQueryBuilder()
       .update(Task)
       .set({
@@ -114,7 +120,7 @@ export class TaskResolver {
   ): Promise<TaskPayload> {
     const repository = connection.getRepository<Task>("tasks");
 
-    var result = await repository
+    const result = await repository
       .createQueryBuilder()
       .update(Task)
       .set({ completedAt: completed ? new Date() : null })
@@ -131,26 +137,44 @@ export class TaskResolver {
     return { task: result.raw[0] as Task };
   }
 
-  @Mutation(() => TaskPayload)
+  @Mutation(() => DeleteTaskPayload)
   async removeTask(
     @Arg("input", () => TaskIdInput) { id }: TaskIdInput,
     @Ctx() { connection, userId }: Context
-  ): Promise<TaskPayload> {
+  ): Promise<DeleteTaskPayload> {
     if (!userId) throw new AuthenticationError("Not logged in");
 
     const repository = connection.getRepository<Task>("tasks");
 
-    var result = await repository
+    let result = await repository
       .createQueryBuilder()
       .delete()
       .from(Task)
-      .where({ id, userId })
+      // Delete task and subtasks
+      .where([{ id, userId }, { parentId: id }])
       .returning("*")
       .execute();
 
     if (!result.affected)
       throw new UserInputError(`Cannot find task with id \`${id}\``);
 
-    return { task: result.raw[0] as Task };
+    const deleted = result.raw as Task[];
+    const deletedTask = deleted.find((t) => t.id === id);
+
+    // Reduce all following tasks' indexes
+    result = await repository
+      .createQueryBuilder()
+      .update(Task)
+      .set({ index: () => "index - 1" })
+      .where({
+        id,
+        userId,
+        parentId: deletedTask.parentId,
+        index: MoreThan(deletedTask.index),
+      })
+      .returning("*")
+      .execute();
+
+    return { deleted, updated: result.raw as Task[] };
   }
 }
