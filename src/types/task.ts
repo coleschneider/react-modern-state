@@ -12,17 +12,18 @@ export type TaskType = {
   userId: number;
 };
 
-export type TaskColor =
-  | "red"
-  | "green"
-  | "blue"
-  | "purple"
-  | "pink"
-  | "indigo"
-  | "cyan"
-  | "teal"
-  | "lime"
-  | "amber"
-  | "orange"
-  | "brown"
-  | "grey";
+export enum TaskColor {
+  RED = "red",
+  GREEN = "green",
+  BLUE = "blue",
+  PURPLE = "purple",
+  PINK = "pink",
+  INDIGO = "indigo",
+  CYAN = "cyan",
+  TEAL = "teal",
+  LIME = "lime",
+  AMBER = "amber",
+  ORANGE = "orange",
+  BROWN = "brown",
+  GREY = "grey",
+}

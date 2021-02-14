@@ -6,9 +6,13 @@ import {
   OneToMany,
   ManyToOne,
 } from "typeorm";
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field, ID, registerEnumType } from "type-graphql";
 import { User } from "server/modules/User/User.entity";
 import { TaskColor } from "types/task";
+
+registerEnumType(TaskColor, {
+  name: "TaskColor",
+});
 
 @Entity("tasks")
 @ObjectType()
@@ -29,8 +33,8 @@ export class Task extends BaseEntity {
   @Field(() => [String], { nullable: true })
   tags?: string[] | null;
 
-  @Column({ type: "text", nullable: true })
-  @Field(() => String, { nullable: true })
+  @Column({ type: "enum", enum: TaskColor, nullable: true })
+  @Field(() => TaskColor, { nullable: true })
   color?: TaskColor | null;
 
   @Column({ type: "date", nullable: true })
