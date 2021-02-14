@@ -14,7 +14,13 @@ import { Context } from "server/interfaces/Context";
 import { User } from "server/modules/User/User.entity";
 import { Task } from "./Task.entity";
 import { TaskConnection } from "./Task.connection";
-import { TaskIdInput, MoveTaskInput, ToggleTaskInput } from "./Task.input";
+import {
+  TaskIdInput,
+  MoveTaskInput,
+  ToggleTaskInput,
+  CreateTaskInput,
+  UpdateTaskInput,
+} from "./Task.input";
 import { TasksPayload, TaskPayload, DeleteTaskPayload } from "./Task.payload";
 import { ConnectionArguments } from "server/modules/relay/ConnectionArguments";
 import { connectionFromRepository } from "server/modules/relay/ConnectionFactory";
@@ -133,6 +139,54 @@ export class TaskResolver {
 
     if (!result.affected)
       throw new UserInputError(`Cannot find task with id \`${id}\``);
+
+    return { task: result.raw[0] as Task };
+  }
+
+  @Mutation(() => TaskPayload)
+  async createTask(
+    @Arg("input", () => CreateTaskInput) task: CreateTaskInput,
+    @Ctx() { connection, userId }: Context
+  ): Promise<TaskPayload> {
+    if (!userId) throw new AuthenticationError("Not logged in");
+
+    const repository = connection.getRepository<Task>("tasks");
+
+    // Move all sibling tasks one position up to insert the new task as first
+    let result = await repository
+      .createQueryBuilder()
+      .update(Task)
+      .set({ index: () => "index + 1" })
+      .where({ userId, parentId: task.parentId })
+      .execute();
+
+    result = await repository
+      .createQueryBuilder()
+      .insert()
+      .into(Task)
+      .values([{ ...task, index: 1, userId }])
+      .returning("*")
+      .execute();
+
+    return { task: result.raw[0] as Task };
+  }
+
+  @Mutation(() => TaskPayload)
+  async updateTask(
+    @Arg("input", () => UpdateTaskInput) { id, ...task }: UpdateTaskInput,
+    @Ctx() { connection, userId }: Context
+  ): Promise<TaskPayload> {
+    if (!userId) throw new AuthenticationError("Not logged in");
+
+    const repository = connection.getRepository<Task>("tasks");
+
+    let result = await repository
+      .createQueryBuilder()
+      .update(Task)
+      .set(task)
+      .where({ id, userId })
+      .returning("*")
+      .execute();
 
     return { task: result.raw[0] as Task };
   }

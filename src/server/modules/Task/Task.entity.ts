@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ObjectType, Field, ID, registerEnumType } from "type-graphql";
 import { User } from "server/modules/User/User.entity";
-import { TaskColor } from "types/task";
+import { TaskType, TaskColor } from "types/task";
 
 registerEnumType(TaskColor, {
   name: "TaskColor",
@@ -16,7 +16,7 @@ registerEnumType(TaskColor, {
 
 @Entity("tasks")
 @ObjectType()
-export class Task extends BaseEntity {
+export class Task extends BaseEntity implements TaskType {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
   id: string;
@@ -27,31 +27,31 @@ export class Task extends BaseEntity {
 
   @Column({ type: "text", nullable: true })
   @Field(() => String, { nullable: true })
-  description?: string | null;
+  description: string | null;
 
   @Column("simple-array")
   @Field(() => [String], { nullable: true })
-  tags?: string[] | null;
+  tags: string[] | null;
 
   @Column({ type: "enum", enum: TaskColor, nullable: true })
   @Field(() => TaskColor, { nullable: true })
-  color?: TaskColor | null;
+  color: TaskColor | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  startDate?: Date | null;
+  startDate: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  dueDate?: Date | null;
+  dueDate: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  remindMeAt?: Date | null;
+  remindMeAt: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  completedAt?: Date | null;
+  completedAt: Date | null;
 
   @Column("int")
   @Field(() => Number)
