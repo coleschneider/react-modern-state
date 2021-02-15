@@ -81,6 +81,9 @@ export class TaskResolver {
 
     const task = await repository.findOne({ where: { id, userId } });
 
+    if (!task)
+      throw new UserInputError(`Cannot find task with id \`${task.id}\``);
+
     // Task is moved to same position
     if (task.index === index) return { tasks: [task] };
 
@@ -143,6 +146,15 @@ export class TaskResolver {
 
     const repository = connection.getRepository<Task>("tasks");
 
+    // Check if user is trying to insert a task under non-existing or foreign task
+    if (
+      task.parentId !== null &&
+      !(await repository.findOne({ where: { id: task.parentId, userId } }))
+    )
+      throw new UserInputError(
+        `Parent task \`${task.parentId}\` was not created by user`
+      );
+
     // Move all sibling tasks one position up to insert the new task as first
     let result = await repository
       .createQueryBuilder()
@@ -178,6 +190,9 @@ export class TaskResolver {
       .where({ id, userId })
       .returning("*")
       .execute();
+
+    if (!result.affected)
+      throw new UserInputError(`Cannot find task with id \`${id}\``);
 
     return { task: result.raw[0] as Task };
   }
