@@ -41,3 +41,7 @@ You’ll have to look for the **IPAddress** field, and copy that number into you
 ### TODO: SSL?
 
 Set `DATABASE_SSL=true`?
+
+### Seed
+
+TODO: Create user with id 0 and demo data

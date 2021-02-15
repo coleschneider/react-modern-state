@@ -55,7 +55,7 @@ export class TaskResolver {
     @Ctx() { userId, connection }: Context
   ) {
     return connectionFromRepository(args, connection.getRepository("tasks"), {
-      where: { userId: userId || 1, parentId: null },
+      where: { userId, parentId: null },
       order: { index: "ASC" },
     });
   }
@@ -66,9 +66,7 @@ export class TaskResolver {
     @Ctx() { userId, connection }: Context
   ) {
     const repository = connection.getRepository<Task>("tasks");
-    return await repository.findOne({
-      where: { id: id, userId: userId || 1 },
-    });
+    return await repository.findOne({ where: { id, userId } });
   }
 
   // Anonymous users are allowed to move tasks for demo purposes
@@ -81,17 +79,13 @@ export class TaskResolver {
 
     const repository = connection.getRepository<Task>("tasks");
 
-    const task = await repository.findOne({
-      where: { id: id, userId: userId || 1 },
-    });
+    const task = await repository.findOne({ where: { id, userId } });
 
     // Task is moved to same position
     if (task.index === index) return { tasks: [task] };
 
     // Index is greater than available tasks
-    const totalCount = await repository.count({
-      where: { id: id, userId: userId || 1 },
-    });
+    const totalCount = await repository.count({ where: { id, userId } });
     if (index > totalCount) index = totalCount;
 
     const result = await repository
@@ -105,7 +99,7 @@ export class TaskResolver {
       })
       .where({
         // Only tasks by the same user, at the same level, between the range of changed indexes
-        userId: userId || 1,
+        userId,
         parentId: task.parentId,
         index: Between(
           Math.min(task.index, index),
@@ -130,10 +124,7 @@ export class TaskResolver {
       .createQueryBuilder()
       .update(Task)
       .set({ completedAt: completed ? new Date() : null })
-      .where({
-        id,
-        userId: userId || 1,
-      })
+      .where({ id, userId })
       .returning("*")
       .execute();
 
