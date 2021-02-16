@@ -10,6 +10,7 @@ const __DEV__ = process.env.NODE_ENV !== "production";
 // Environment variables
 checkEnv({
   required: [
+    "NEXT_PUBLIC_API_URL",
     "NEXT_PUBLIC_DEPLOYMENT_URL",
     "AUTH_PRIVATE_KEY",
     "GITHUB_CLIENT_ID",
