@@ -32,25 +32,25 @@ export class CreateTaskInput implements NewTaskType {
   title!: string;
 
   @Field(() => String, { nullable: true })
-  description?: string | null;
+  description: string | null;
 
   @Field(() => [String], { nullable: true })
-  tags?: string[] | null;
+  tags: string[] | null;
 
   @Field(() => TaskColor, { nullable: true })
-  color?: TaskColor | null;
+  color: TaskColor | null;
 
   @Field(() => Date, { nullable: true })
-  startDate?: Date | null;
+  startDate: Date | null;
 
   @Field(() => Date, { nullable: true })
-  dueDate?: Date | null;
+  dueDate: Date | null;
 
   @Field(() => Date, { nullable: true })
-  remindMeAt?: Date | null;
+  remindMeAt: Date | null;
 
   @Field(() => ID)
-  parentId?: string | null;
+  parentId: string | null;
 }
 
 @InputType()

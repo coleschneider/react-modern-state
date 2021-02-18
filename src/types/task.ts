@@ -30,7 +30,10 @@ export enum TaskColor {
 
 export type TaskPositionType = Pick<TaskType, "id" | "index">;
 
-export type NewTaskType = Partial<Omit<TaskType, "id" | "index" | "userId">>;
+export type NewTaskType = Omit<
+  TaskType,
+  "id" | "index" | "completedAt" | "userId"
+>;
 
 export type UpdateTaskType = Pick<TaskType, "id"> &
   Partial<Omit<TaskType, "id" | "index" | "userId">>;

@@ -220,7 +220,7 @@ export class TaskResolver {
   }
 
   @Mutation(() => DeleteTaskPayload)
-  async removeTask(
+  async deleteTask(
     @Arg("input", () => TaskIdInput) { id }: TaskIdInput,
     @Ctx() { connection, userId }: Context
   ): Promise<DeleteTaskPayload> {
