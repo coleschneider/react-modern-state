@@ -29,7 +29,7 @@ export class Task extends BaseEntity implements TaskType {
   @Field(() => String, { nullable: true })
   description: string | null;
 
-  @Column("simple-array")
+  @Column({ type: "varchar", length: 50, array: true, nullable: true })
   @Field(() => [String], { nullable: true })
   tags: string[] | null;
 

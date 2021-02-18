@@ -20,8 +20,11 @@ import {
   ToggleTaskInput,
   CreateTaskInput,
   UpdateTaskInput,
-} from "./Task.input";
-import { TasksPayload, TaskPayload, DeleteTaskPayload } from "./Task.payload";
+  TasksPayload,
+  TaskPayload,
+  DeleteTaskPayload,
+  TaskTagsPayload,
+} from "./Task.models";
 import { ConnectionArguments } from "server/modules/relay/ConnectionArguments";
 import { connectionFromRepository } from "server/modules/relay/ConnectionFactory";
 
@@ -67,6 +70,25 @@ export class TaskResolver {
   ) {
     const repository = connection.getRepository<Task>("tasks");
     return await repository.findOne({ where: { id, userId } });
+  }
+
+  @Query(() => TaskTagsPayload)
+  async taskTags(
+    @Ctx() { userId, connection }: Context
+  ): Promise<TaskTagsPayload> {
+    const repository = connection.getRepository<Task>("tasks");
+
+    const result: Pick<Task, "tags">[] = await repository
+      .createQueryBuilder("users")
+      .select("tags")
+      .distinct()
+      .where({ userId })
+      .execute();
+
+    const allTags = new Set<string>();
+    for (const { tags } of result)
+      if (tags) for (const tag of tags) allTags.add(tag);
+    return { tags: [...allTags] };
   }
 
   // Anonymous users are allowed to move tasks for demo purposes

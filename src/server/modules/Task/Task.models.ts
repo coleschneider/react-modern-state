@@ -1,5 +1,6 @@
-import { Field, InputType, ID } from "type-graphql";
-import { TaskType, TaskColor } from "types/task";
+import { Field, InputType, ObjectType, ID } from "type-graphql";
+import { Task } from "./Task.entity";
+import { NewTaskType, UpdateTaskType, TaskColor } from "types/task";
 
 @InputType()
 export class TaskIdInput {
@@ -26,7 +27,7 @@ export class ToggleTaskInput {
 }
 
 @InputType()
-export class CreateTaskInput implements Partial<TaskType> {
+export class CreateTaskInput implements NewTaskType {
   @Field(() => String)
   title!: string;
 
@@ -53,7 +54,7 @@ export class CreateTaskInput implements Partial<TaskType> {
 }
 
 @InputType()
-export class UpdateTaskInput implements Partial<TaskType> {
+export class UpdateTaskInput implements UpdateTaskType {
   @Field(() => ID)
   id!: string;
 
@@ -80,4 +81,31 @@ export class UpdateTaskInput implements Partial<TaskType> {
 
   @Field(() => Date, { nullable: true })
   completedAt?: Date | null;
+}
+
+@ObjectType()
+export class TasksPayload {
+  @Field(() => [Task], { nullable: true })
+  readonly tasks?: Task[];
+}
+
+@ObjectType()
+export class TaskPayload {
+  @Field(() => Task, { nullable: true })
+  readonly task?: Task;
+}
+
+@ObjectType()
+export class DeleteTaskPayload {
+  @Field(() => Task, { nullable: true })
+  readonly deleted?: Task;
+
+  @Field(() => [Task], { nullable: true })
+  readonly updated?: Task[];
+}
+
+@ObjectType()
+export class TaskTagsPayload {
+  @Field(() => [String], { nullable: true })
+  readonly tags?: string[];
 }
