@@ -1,32 +1,34 @@
 export type TaskType = {
   id: string;
   title: string;
-  description: string | null;
-  tags: string[] | null;
-  color: TaskColor | null;
-  startDate: Date | null;
-  dueDate: Date | null;
-  remindMeAt: Date | null;
-  completedAt: Date | null;
+  description?: string | null;
+  tags?: string[] | null;
+  color?: TaskColor | null;
+  startDate?: Date | null;
+  dueDate?: Date | null;
+  remindMeAt?: Date | null;
+  completedAt?: Date | null;
   index: number;
   userId: number;
 };
 
 export enum TaskColor {
-  RED = "red",
-  GREEN = "green",
-  BLUE = "blue",
-  PURPLE = "purple",
-  PINK = "pink",
-  INDIGO = "indigo",
-  CYAN = "cyan",
-  TEAL = "teal",
-  LIME = "lime",
-  AMBER = "amber",
-  ORANGE = "orange",
-  BROWN = "brown",
-  GREY = "grey",
+  Red = "Red",
+  Green = "Green",
+  Blue = "Blue",
+  Purple = "Purple",
+  Pink = "Pink",
+  Indigo = "Indigo",
+  Cyan = "Cyan",
+  Teal = "Teal",
+  Lime = "Lime",
+  Amber = "Amber",
+  Orange = "Orange",
+  Brown = "Brown",
+  Grey = "Grey",
 }
+
+export type OwnTasksType = Omit<TaskType, "userId">;
 
 export type TaskPositionType = Pick<TaskType, "id" | "index">;
 

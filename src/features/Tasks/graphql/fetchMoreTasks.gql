@@ -1,0 +1,23 @@
+query fetchMoreTasks($after: String, $first: Int) {
+  tasks(after: $after, first: $first) {
+    edges {
+      node {
+        id
+        title
+        description
+        tags
+        color
+        startDate
+        dueDate
+        remindMeAt
+        completedAt
+        index
+      }
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

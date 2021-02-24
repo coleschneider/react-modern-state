@@ -1,0 +1,8 @@
+mutation moveTask($input: MoveTaskInput!) {
+  moveTask(input: $input) {
+    tasks {
+      id
+      index
+    }
+  }
+}

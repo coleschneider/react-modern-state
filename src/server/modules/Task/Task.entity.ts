@@ -27,31 +27,31 @@ export class Task extends BaseEntity implements TaskType {
 
   @Column({ type: "text", nullable: true })
   @Field(() => String, { nullable: true })
-  description: string | null;
+  description?: string | null;
 
   @Column({ type: "varchar", length: 50, array: true, nullable: true })
   @Field(() => [String], { nullable: true })
-  tags: string[] | null;
+  tags?: string[] | null;
 
   @Column({ type: "enum", enum: TaskColor, nullable: true })
   @Field(() => TaskColor, { nullable: true })
-  color: TaskColor | null;
+  color?: TaskColor | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  startDate: Date | null;
+  startDate?: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  dueDate: Date | null;
+  dueDate?: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  remindMeAt: Date | null;
+  remindMeAt?: Date | null;
 
   @Column({ type: "date", nullable: true })
   @Field(() => Date, { nullable: true })
-  completedAt: Date | null;
+  completedAt?: Date | null;
 
   @Column("int")
   @Field(() => Number)

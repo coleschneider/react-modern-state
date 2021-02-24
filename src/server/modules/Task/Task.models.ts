@@ -49,7 +49,7 @@ export class CreateTaskInput implements NewTaskType {
   @Field(() => Date, { nullable: true })
   remindMeAt: Date | null;
 
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   parentId: string | null;
 }
 

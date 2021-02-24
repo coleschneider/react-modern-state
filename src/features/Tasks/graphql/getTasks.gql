@@ -1,0 +1,26 @@
+query getTasks($first: Int) {
+  tasks(first: $first) {
+    edges {
+      node {
+        id
+        title
+        description
+        tags
+        color
+        startDate
+        dueDate
+        remindMeAt
+        completedAt
+        index
+      }
+    }
+    totalCount
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+  taskTags {
+    tags
+  }
+}

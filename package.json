@@ -15,7 +15,8 @@
     "lint:type": "tsc --pretty --noEmit",
     "lint:code": "eslint --fix .",
     "lint": "run-s -c lint:type lint:code",
-    "format": "prettier --loglevel silent --write ."
+    "format": "prettier --loglevel silent --write .",
+    "codegen-graphql": "node ./scripts/codegen-graphql.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
@@ -29,6 +30,7 @@
     "framer-motion": "^3.2.1",
     "graphql": "^15.5.0",
     "graphql-relay": "^0.6.0",
+    "graphql-request": "^3.4.0",
     "immer": "^8.0.1",
     "jsonwebtoken": "^8.5.1",
     "next": "^10.0.5",
@@ -41,7 +43,6 @@
     "react-github-corner": "^2.5.0",
     "react-table": "^7.6.3",
     "react-virtual": "^2.3.2",
-    "redaxios": "^0.4.1",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.30",
@@ -49,6 +50,10 @@
   },
   "devDependencies": {
     "@47ng/check-env": "^2.0.2",
+    "@graphql-codegen/cli": "^1.17.7",
+    "@graphql-codegen/typescript": "^1.17.7",
+    "@graphql-codegen/typescript-graphql-request": "^3.0.2",
+    "@graphql-codegen/typescript-operations": "^1.17.7",
     "@next/bundle-analyzer": "^10.0.5",
     "@storybook/addon-actions": "^6.1.14",
     "@storybook/addon-essentials": "^6.1.14",
