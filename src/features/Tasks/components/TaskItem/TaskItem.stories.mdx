@@ -1,0 +1,242 @@
+import { Meta, Story, ArgsTable, Preview } from "@storybook/addon-docs/blocks";
+import TaskItem from "./TaskItem";
+
+<Meta title="Task" component={TaskItem} />
+
+# TaskItem
+
+## Preview
+
+export const Template = (args) => <TaskItem {...args} />;
+
+<Preview>
+  <Story
+    name="Task item"
+    args={{
+      title: "Example task",
+      description: "Tell me something more about it...",
+      tags: ["hello", "world"],
+      subtasks: [7, 8],
+      dueDate: (() => {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        return tomorrow;
+      })(),
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Preview>
+
+## Props
+
+<ArgsTable of={TaskItem} />
+
+## Colors
+
+<TaskItem
+  title="Red"
+  description="The color of passion and energy"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Red"
+/>
+
+---
+
+<TaskItem
+  title="Green"
+  description="The color of harmony and health"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Green"
+/>
+
+---
+
+<TaskItem
+  title="Blue"
+  description="The color of trust and loyalty"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Blue"
+/>
+
+---
+
+<TaskItem
+  title="Purple"
+  description="The color of spirituality and imagination"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Purple"
+/>
+
+---
+
+<TaskItem
+  title="Pink"
+  description="The color of love and compassion"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Pink"
+/>
+
+---
+
+<TaskItem
+  title="Indigo"
+  description="The color of mysterious and the unknown"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Indigo"
+/>
+
+---
+
+<TaskItem
+  title="Cyan"
+  description="The color of calmness and clarity"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Cyan"
+/>
+
+---
+
+<TaskItem
+  title="Teal"
+  description="Teal is reserved, intuitive and perhaps an introverted color, teal is different"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Teal"
+/>
+
+---
+
+<TaskItem
+  title="Lime"
+  description="The color of energy, youth and zest"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Lime"
+/>
+
+---
+
+<TaskItem
+  title="Amber"
+  description="The color of happiness and optimism"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Amber"
+/>
+
+---
+
+<TaskItem
+  title="Orange"
+  description="The color of enthusiasm and emotion"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Orange"
+/>
+
+---
+
+<TaskItem
+  title="Brown"
+  description="The color of stability and reliability"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Brown"
+/>
+
+---
+
+<TaskItem
+  title="Grey"
+  description="The color of compromise and control"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+  color="Grey"
+/>
