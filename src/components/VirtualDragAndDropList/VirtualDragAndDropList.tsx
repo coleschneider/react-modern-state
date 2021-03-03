@@ -187,6 +187,7 @@ export function VirtualDragAndDropList<T>({
       <Frame
         backgroundColor="none"
         color="inherit"
+        position="relative"
         {...innerProps}
         size={items.length * itemSize}
         ref={ref}

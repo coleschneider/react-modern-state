@@ -1,6 +1,12 @@
-import { ReactChild } from "react";
+import { ReactElement } from "react";
 import { PanInfo, AxisBox2D, BoxDelta } from "framer-motion";
 import { FrameProps, ScrollProps } from "framer";
+
+export type VirtualDragAndDropListItemProps = {
+  index: number;
+  offset: number;
+  itemProps: VirtualListItemProps;
+};
 
 export type VirtualDragAndDropListProps<T> = ScrollProps & {
   items: T[];
@@ -16,7 +22,7 @@ export type VirtualDragAndDropListProps<T> = ScrollProps & {
     index: number,
     offset: number,
     itemProps: VirtualListItemProps
-  ) => ReactChild;
+  ) => ReactElement<VirtualDragAndDropListItemProps>;
 };
 
 export type VirtualListItemProps = {
