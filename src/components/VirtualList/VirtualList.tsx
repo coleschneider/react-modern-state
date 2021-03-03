@@ -89,7 +89,7 @@ export function VirtualList<T>({
 
   const nodes: ReactChild[] = [];
   for (let i = start; i <= end; i++)
-    nodes.push(children(items[i], i, i * itemSize + scrollOffset.current));
+    nodes.push(children(items[i], i * itemSize + scrollOffset.current));
 
   return (
     <Scroll
