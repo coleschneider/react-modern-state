@@ -36,18 +36,10 @@ const createTask = (
   );
   const color = maybe(
     random.arrayElement([
-      TaskColor.Amber,
       TaskColor.Blue,
-      TaskColor.Brown,
-      TaskColor.Cyan,
       TaskColor.Green,
-      TaskColor.Indigo,
-      TaskColor.Lime,
       TaskColor.Orange,
-      TaskColor.Pink,
-      TaskColor.Purple,
       TaskColor.Red,
-      TaskColor.Teal,
     ])
   );
   const parent = random.arrayElement(Object.keys(tasksUuids));

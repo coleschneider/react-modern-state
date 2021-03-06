@@ -1,3 +1,4 @@
+import { muiTheme } from "storybook-addon-material-ui";
 import AppWrapper from "AppWrapper";
 
 export const parameters = {
@@ -5,6 +6,7 @@ export const parameters = {
 };
 
 export const decorators = [
+  muiTheme(),
   (Story) => (
     <AppWrapper>
       <Story />

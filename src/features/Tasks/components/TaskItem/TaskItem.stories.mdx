@@ -36,6 +36,21 @@ export const Template = (args) => <TaskItem {...args} />;
 ## Colors
 
 <TaskItem
+  title="Default"
+  description="No color"
+  tags={["hello", "world"]}
+  subtasks={[7, 8]}
+  dueDate={(() => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  })()}
+/>
+
+---
+
+<TaskItem
   title="Red"
   description="The color of passion and energy"
   tags={["hello", "world"]}
@@ -84,118 +99,6 @@ export const Template = (args) => <TaskItem {...args} />;
 ---
 
 <TaskItem
-  title="Purple"
-  description="The color of spirituality and imagination"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Purple"
-/>
-
----
-
-<TaskItem
-  title="Pink"
-  description="The color of love and compassion"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Pink"
-/>
-
----
-
-<TaskItem
-  title="Indigo"
-  description="The color of mysterious and the unknown"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Indigo"
-/>
-
----
-
-<TaskItem
-  title="Cyan"
-  description="The color of calmness and clarity"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Cyan"
-/>
-
----
-
-<TaskItem
-  title="Teal"
-  description="Teal is reserved, intuitive and perhaps an introverted color, teal is different"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Teal"
-/>
-
----
-
-<TaskItem
-  title="Lime"
-  description="The color of energy, youth and zest"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Lime"
-/>
-
----
-
-<TaskItem
-  title="Amber"
-  description="The color of happiness and optimism"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Amber"
-/>
-
----
-
-<TaskItem
   title="Orange"
   description="The color of enthusiasm and emotion"
   tags={["hello", "world"]}
@@ -207,36 +110,4 @@ export const Template = (args) => <TaskItem {...args} />;
     return tomorrow;
   })()}
   color="Orange"
-/>
-
----
-
-<TaskItem
-  title="Brown"
-  description="The color of stability and reliability"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Brown"
-/>
-
----
-
-<TaskItem
-  title="Grey"
-  description="The color of compromise and control"
-  tags={["hello", "world"]}
-  subtasks={[7, 8]}
-  dueDate={(() => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow;
-  })()}
-  color="Grey"
 />

@@ -10,22 +10,14 @@ export type TaskType = {
   completedAt?: Date | null;
   index: number;
   userId: number;
+  parentId?: string | null;
 };
 
 export enum TaskColor {
   Red = "Red",
   Green = "Green",
   Blue = "Blue",
-  Purple = "Purple",
-  Pink = "Pink",
-  Indigo = "Indigo",
-  Cyan = "Cyan",
-  Teal = "Teal",
-  Lime = "Lime",
-  Amber = "Amber",
   Orange = "Orange",
-  Brown = "Brown",
-  Grey = "Grey",
 }
 
 export type OwnTasksType = Omit<TaskType, "userId">;
@@ -39,3 +31,11 @@ export type NewTaskType = Omit<
 
 export type UpdateTaskType = Pick<TaskType, "id"> &
   Partial<Omit<TaskType, "id" | "index" | "userId">>;
+
+export type TaskFilterType = {
+  text?: string;
+  completed?: boolean;
+  tags?: string[];
+  startDate?: [Date | null, Date | null];
+  dueDate?: [Date | null, Date | null];
+};
