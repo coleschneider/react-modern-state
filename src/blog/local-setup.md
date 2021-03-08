@@ -38,10 +38,10 @@ docker inspect <Container-ID>
 
 You’ll have to look for the **IPAddress** field, and copy that number into your postgres connection.
 
-### TODO: SSL?
+### Heroku and self signed certificates
 
-Set `DATABASE_SSL=true`?
+Uncomment `PGSSLMODE` in `.env` file
 
-### Seed
+### Seed database with dummy data
 
-TODO: Create user with id 0 and demo data
+`npm run seed`
