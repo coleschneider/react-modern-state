@@ -1,61 +1,49 @@
 import { useCallback } from "react";
 import { VirtualDragAndDropList } from "components/VirtualDragAndDropList";
 import { VirtualList } from "components/VirtualList";
-import {
-  TaskType,
-  NewTaskType,
-  UpdateTaskType,
-  TaskFilterType,
-} from "types/task";
 import TaskListItem, { DragAndDropTaskListItem } from "./TaskListItem";
-import TaskItem from "../TaskItem/TaskItem";
+import { TasksListProps, DragAndDropTasksListProps } from "./TasksList.types";
 import useStyles from "./TasksList.style";
 
-export type TasksListProps = {
-  tasks: TaskType[];
-  fetchTasks: (filter?: TaskFilterType | null) => void;
-  fetchMoreTasks: () => void;
-  handleTaskCreate: (task: NewTaskType) => void;
-  handleTaskUpdate: (task: UpdateTaskType) => void;
-  handleTaskDelete: (id: string) => void;
-};
-
-export default function TasksList({ tasks }: TasksListProps) {
+export default function TasksList({
+  tasks,
+  handleTaskToggle,
+  handleTaskDelete,
+}: TasksListProps) {
   const classes = useStyles();
 
   return (
     <VirtualList
       items={tasks}
-      itemSize={150}
+      itemSize={110}
       height="90vh"
       width="100%"
       innerProps={{ className: classes.listContainer }}
     >
       {(task, offset) => (
-        <TaskListItem key={task.id} offset={offset}>
-          <TaskItem
-            completed={!!task.completedAt}
-            title={task.title}
-            description={task.description}
-            tags={task.tags}
-            dueDate={task.dueDate}
-            subtasks={null}
-            color={task.color}
-            onToggle={() => null}
-            onDelete={() => null}
-          />
-        </TaskListItem>
+        <TaskListItem
+          key={task.id}
+          offset={offset}
+          id={task.id}
+          completed={task.completed}
+          title={task.title}
+          description={task.description}
+          tags={task.tags}
+          dueDate={task.dueDate}
+          subtasks={task.subtasks}
+          color={task.color}
+          handleTaskToggle={handleTaskToggle}
+          handleTaskDelete={handleTaskDelete}
+        />
       )}
     </VirtualList>
   );
 }
 
-export type DragAndDropTasksListProps = TasksListProps & {
-  handleTaskMove: (id: string, index: number) => void;
-};
-
 export function DragAndDropTasksList({
   tasks,
+  handleTaskToggle,
+  handleTaskDelete,
   handleTaskMove,
 }: DragAndDropTasksListProps) {
   const classes = useStyles();
@@ -71,8 +59,8 @@ export function DragAndDropTasksList({
   return (
     <VirtualDragAndDropList
       items={tasks}
-      swapDistance={80}
-      itemSize={150}
+      swapDistance={60}
+      itemSize={110}
       onPositionUpdate={onPositionUpdate}
       height="90vh"
       width="100%"
@@ -84,19 +72,17 @@ export function DragAndDropTasksList({
           index={index}
           offset={offset}
           itemProps={itemProps}
-        >
-          <TaskItem
-            completed={!!task.completedAt}
-            title={task.title}
-            description={task.description}
-            tags={task.tags}
-            dueDate={task.dueDate}
-            subtasks={null}
-            color={task.color}
-            onToggle={() => null}
-            onDelete={() => null}
-          />
-        </DragAndDropTaskListItem>
+          id={task.id}
+          completed={task.completed}
+          title={task.title}
+          description={task.description}
+          tags={task.tags}
+          dueDate={task.dueDate}
+          subtasks={task.subtasks}
+          color={task.color}
+          handleTaskToggle={handleTaskToggle}
+          handleTaskDelete={handleTaskDelete}
+        />
       )}
     </VirtualDragAndDropList>
   );

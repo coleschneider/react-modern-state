@@ -99,7 +99,7 @@ export default function TaskItem({
               aria-label="Close"
               data-testid="delete"
             >
-              <DeleteIcon color="error" />
+              <DeleteIcon htmlColor="#7D1A0C" />
             </IconButton>
           </Tooltip>
         </Box>
