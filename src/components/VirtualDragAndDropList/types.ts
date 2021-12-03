@@ -2,6 +2,13 @@ import { ReactElement } from "react";
 import { PanInfo, AxisBox2D, BoxDelta } from "framer-motion";
 import { FrameProps, ScrollProps } from "framer";
 
+export type VirtualListItemProps = {
+  drag: "x" | "y";
+  handleChange: (i: number, dragOffset: number) => void;
+  handleDragStart: (index: number) => void;
+  handleDragEnd: (endIndex: number) => void;
+};
+
 export type VirtualDragAndDropListItemProps = {
   index: number;
   offset: number;
@@ -23,13 +30,6 @@ export type VirtualDragAndDropListProps<T> = ScrollProps & {
     offset: number,
     itemProps: VirtualListItemProps
   ) => ReactElement<VirtualDragAndDropListItemProps>;
-};
-
-export type VirtualListItemProps = {
-  drag: "x" | "y";
-  handleChange: (i: number, dragOffset: number) => void;
-  handleDragStart: (index: number) => void;
-  handleDragEnd: (endIndex: number) => void;
 };
 
 export type DragState = "idle" | "animating" | "dragging";

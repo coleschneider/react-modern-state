@@ -6,6 +6,7 @@ import {
   TaskPositionType,
   NewTaskType,
   UpdateTaskType,
+  TaskFilterType,
 } from "types/task";
 import api, {
   CreateTaskMutation,
@@ -15,46 +16,77 @@ import api, {
   MoveTaskMutation,
   UpdateTaskMutation,
 } from "api";
+import * as optimistic from "features/Tasks/actions";
 
 type TasksContextType = {
   tasks: OwnTasksType[];
-  pageInfo: Pick<PageInfo, "hasNextPage" | "endCursor">;
-  tags: string[];
+  filter: TaskFilterType | null;
   error: Error | null;
   loading: boolean;
+  meta: Pick<PageInfo, "hasNextPage" | "endCursor"> & {
+    allTags: string[];
+    tags: string[];
+    totalCount: number;
+    count: number;
+  };
 };
 
 export const initialTasksState: TasksContextType = {
   tasks: [],
-  pageInfo: {},
-  tags: [],
   error: null,
   loading: false,
+  filter: null,
+  meta: {
+    allTags: [],
+    tags: [],
+    totalCount: 0,
+    count: 0,
+  },
+};
+
+type FetchMoreTasksParams = {
+  after?: string;
+  filter?: TaskFilterType | null;
 };
 
 export const tasksReducers = {
   getTasks: {
-    promise: async () => api.getTasks({ first: 20 }),
+    promise: async (filter?: TaskFilterType | null) =>
+      api.getTasks({ first: 20 }),
     pending: (state: TasksContextType) => {
       state.loading = true;
       return state;
     },
-    fullfilled: (state: TasksContextType, result: GetTasksQuery) => {
+    fullfilled: (
+      state: TasksContextType,
+      result: GetTasksQuery,
+      _filter?: TaskFilterType | null
+    ) => {
       state.loading = false;
       state.error = null;
       state.tasks = result.tasks.edges.map((edge) => edge.node);
-      state.pageInfo = result.tasks.pageInfo;
-      state.tags = result.taskTags.tags;
+      state.meta = {
+        ...result.tasks.pageInfo,
+        allTags: result.allTaskTags.tags || [],
+        totalCount: result.allTasks.totalCount,
+        tags: result.taskTags.tags || [],
+        count: result.tasks.totalCount,
+      };
       return state;
     },
-    rejected: (state: TasksContextType, error: Error) => {
+    rejected: (
+      state: TasksContextType,
+      error: Error,
+      _filter?: TaskFilterType | null
+    ) => {
       state.loading = false;
       state.error = error;
       return state;
     },
   },
   fetchMoreTasks: {
-    promise: async (after: string) => api.fetchMoreTasks({ first: 20, after }),
+    promise: async ({ after, filter }: FetchMoreTasksParams) =>
+      api.fetchMoreTasks({ after, first: 20 }),
     pending: (state: TasksContextType) => {
       state.loading = true;
       return state;
@@ -62,17 +94,18 @@ export const tasksReducers = {
     fullfilled: (
       state: TasksContextType,
       result: FetchMoreTasksQuery,
-      _after: string
+      _params: FetchMoreTasksParams
     ) => {
-      state.loading = false;
-      state.error = null;
       state.tasks = state.tasks.concat(
         result.tasks.edges.map((edge) => edge.node)
       );
-      state.pageInfo = result.tasks.pageInfo;
       return state;
     },
-    rejected: (state: TasksContextType, error: Error, _after: string) => {
+    rejected: (
+      state: TasksContextType,
+      error: Error,
+      _params: FetchMoreTasksParams
+    ) => {
       state.loading = false;
       state.error = error;
       return state;
@@ -81,8 +114,9 @@ export const tasksReducers = {
   moveTask: {
     promise: async ({ id, index }: TaskPositionType) =>
       api.moveTask({ input: { id, index } }),
-    pending: (state: TasksContextType) => {
+    pending: (state: TasksContextType, { id, index }: TaskPositionType) => {
       state.loading = true;
+      state.tasks = optimistic.moveTask(state.tasks, id, index);
       return state;
     },
     fullfilled: (
@@ -92,10 +126,12 @@ export const tasksReducers = {
     ) => {
       state.loading = false;
       state.error = null;
+      // TODO: Moving inner tasks?
       for (const { id, index } of result.moveTask.tasks) {
         const target = state.tasks.find((t) => t.id === id);
         if (target) target.index = index;
       }
+      state.tasks.sort(({ index }) => index);
       return state;
     },
     rejected: (
@@ -110,8 +146,9 @@ export const tasksReducers = {
   },
   createTask: {
     promise: async (task: NewTaskType) => api.createTask({ input: task }),
-    pending: (state: TasksContextType) => {
+    pending: (state: TasksContextType, task: NewTaskType) => {
       state.loading = true;
+      state.tasks = optimistic.createTask(state.tasks, task);
       return state;
     },
     fullfilled: (

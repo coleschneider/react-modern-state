@@ -21,7 +21,7 @@ export function VirtualList<T>({
   const scrollOffset = useRef(0);
 
   const [windowSize, setWindowSize] = useState((): number => {
-    const sizeProp = scrollDirection === "y" ? width : height;
+    const sizeProp = scrollDirection === "y" ? height : width;
     if (Number.isInteger(sizeProp)) return sizeProp as number;
     const strSize = sizeProp as string;
     if (/^\d+px$/.test(strSize)) return Number.parseInt(strSize, 10);
@@ -72,6 +72,7 @@ export function VirtualList<T>({
         itemSize,
         windowSize
       );
+
       if (newWindow[0] !== start && newWindow[1] !== end) setWindow(newWindow);
     },
     [
@@ -89,7 +90,7 @@ export function VirtualList<T>({
 
   const nodes: ReactChild[] = [];
   for (let i = start; i <= end; i++)
-    nodes.push(children(items[i], i * itemSize + scrollOffset.current));
+    nodes.push(children(items[i], i * itemSize));
 
   return (
     <Scroll
@@ -99,12 +100,13 @@ export function VirtualList<T>({
       width={width}
       height={height}
       onScroll={handleScroll}
+      position="relative"
     >
       <Frame
         backgroundColor="none"
         color="inherit"
         position="relative"
-        {...innerProps}
+        overflow="visible"
         size={items.length * itemSize}
         ref={ref}
       >

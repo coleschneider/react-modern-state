@@ -50,7 +50,7 @@ export default function TaskItem({
         paddingTop="4px"
         data-testid="header"
       >
-        <Box data-testid="tags">
+        <Box data-testid="tags" flexWrap="nowrap">
           {tags &&
             tags.map((tag) => (
               <Chip
@@ -77,6 +77,7 @@ export default function TaskItem({
           flexDirection="column"
           justifyContent="center"
           flexGrow="1"
+          overflow="hidden"
         >
           <Box display="flex" flexDirection="row">
             <Typography variant="subtitle1" noWrap data-testid="title">

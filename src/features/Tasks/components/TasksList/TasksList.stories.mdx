@@ -1,0 +1,92 @@
+import { useState, useCallback } from "react";
+import { Meta, Story, ArgsTable } from "@storybook/addon-docs/blocks";
+import Box from "@material-ui/core/Box";
+import { random, lorem, date } from "faker";
+import { TaskColor } from "types/task";
+import TasksList, { DragAndDropTasksList } from "./TasksList";
+import { moveTask } from "../../actions";
+
+<Meta title="Task" component={TasksList} />
+
+# TasksList
+
+<Story name="Tasks list" />
+
+## Props
+
+<ArgsTable of={TasksList} />
+
+## Examples
+
+### Virtual list
+
+export const Template = (args) => <TasksList {...args} />;
+
+export const createTask = (index) => ({
+  id: random.uuid(),
+  index,
+  completed: random.boolean(),
+  title: `#${index + 1} ${lorem.sentence()}`,
+  description: random.boolean() ? lorem.paragraphs() : null,
+  tags: random.boolean()
+    ? [...new Set(lorem.words(random.number({ min: 1, max: 5 })).split(" "))]
+    : null,
+  dueDate: random.boolean() ? date.soon() : null,
+  subtasks: random.boolean()
+    ? [random.number({ min: 1, max: 5 }), random.number({ min: 5, max: 20 })]
+    : null,
+  color: random.boolean()
+    ? random.arrayElement([
+        TaskColor.Blue,
+        TaskColor.Green,
+        TaskColor.Orange,
+        TaskColor.Red,
+      ])
+    : null,
+  onToggle: () => {},
+  onDelete: () => {},
+});
+
+export const tasks = new Array(random.number({ min: 10, max: 20 }))
+  .fill(0)
+  .map((_, idx) => createTask(idx));
+
+<!-- Try with 90vh as well -->
+
+<Box width="720px" marginX="auto">
+  <TasksList
+    tasks={tasks}
+    height={500}
+    fetchTasks={() => {}}
+    fetchMoreTasks={() => {}}
+    handleTaskToggle={() => {}}
+    handleTaskDelete={() => {}}
+  />
+</Box>
+
+### Virtual drag and drop list
+
+export const DragAndDropList = () => {
+  const [items, setItems] = useState(tasks);
+  const handleTaskMove = useCallback(
+    (id, index) => {
+      setItems(moveTask(items, id, index));
+    },
+    [items, setItems]
+  );
+  return (
+    <DragAndDropTasksList
+      tasks={items}
+      height={500}
+      fetchTasks={() => {}}
+      fetchMoreTasks={() => {}}
+      handleTaskToggle={() => {}}
+      handleTaskDelete={() => {}}
+      handleTaskMove={handleTaskMove}
+    />
+  );
+};
+
+<Box width="720px" marginX="auto">
+  <DragAndDropList />
+</Box>

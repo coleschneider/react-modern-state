@@ -7,6 +7,7 @@ import useStyles from "./TasksList.style";
 
 export default function TasksList({
   tasks,
+  height = "90vh",
   handleTaskToggle,
   handleTaskDelete,
 }: TasksListProps) {
@@ -16,9 +17,9 @@ export default function TasksList({
     <VirtualList
       items={tasks}
       itemSize={110}
-      height="90vh"
+      height={height}
       width="100%"
-      innerProps={{ className: classes.listContainer }}
+      className={classes.listContainer}
     >
       {(task, offset) => (
         <TaskListItem
@@ -64,7 +65,7 @@ export function DragAndDropTasksList({
       onPositionUpdate={onPositionUpdate}
       height="90vh"
       width="100%"
-      innerProps={{ className: classes.listContainer }}
+      className={classes.listContainer}
     >
       {(task, index, offset, itemProps) => (
         <DragAndDropTaskListItem

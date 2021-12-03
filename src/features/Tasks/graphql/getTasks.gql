@@ -7,7 +7,6 @@ query getTasks($first: Int) {
         description
         tags
         color
-        startDate
         dueDate
         remindMeAt
         completedAt
@@ -21,6 +20,12 @@ query getTasks($first: Int) {
     }
   }
   taskTags {
+    tags
+  }
+  allTasks: tasks {
+    totalCount
+  }
+  allTaskTags: taskTags {
     tags
   }
 }

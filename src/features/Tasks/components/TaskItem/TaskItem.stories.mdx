@@ -111,3 +111,29 @@ export const Template = (args) => <TaskItem {...args} />;
   })()}
   color="Orange"
 />
+
+## Task text overflow
+
+<TaskItem
+  title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dolor morbi non arcu risus quis varius."
+  description="Elit ullamcorper dignissim cras tincidunt lobortis. Sed enim ut sem viverra aliquet eget sit amet tellus. Vel pretium lectus quam id leo in. Nec dui nunc mattis enim ut tellus elementum sagittis. Non quam lacus suspendisse faucibus. Maecenas volutpat blandit aliquam etiam. Neque sodales ut etiam sit amet nisl purus."
+  tags={[
+    "nihil",
+    "ūnus",
+    "duo",
+    "trēs",
+    "quattuor",
+    "quīnque",
+    "sex",
+    "septem",
+    "octō",
+    "novem",
+    "decem",
+    "ūndecim",
+    "duodēcim",
+    "trēdecim",
+    "quattuordecim",
+    "quīndecim",
+  ]}
+  subtasks={[Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]}
+/>

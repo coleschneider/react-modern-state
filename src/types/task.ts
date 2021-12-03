@@ -1,3 +1,10 @@
+export enum TaskColor {
+  Red = "Red",
+  Green = "Green",
+  Blue = "Blue",
+  Orange = "Orange",
+}
+
 export type TaskType = {
   id: string;
   title: string;
@@ -12,13 +19,6 @@ export type TaskType = {
   userId: number;
   parentId?: string | null;
 };
-
-export enum TaskColor {
-  Red = "Red",
-  Green = "Green",
-  Blue = "Blue",
-  Orange = "Orange",
-}
 
 export type OwnTasksType = Omit<TaskType, "userId">;
 

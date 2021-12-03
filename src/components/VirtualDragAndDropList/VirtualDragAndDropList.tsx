@@ -1,8 +1,85 @@
-import React, { useState, useCallback, useRef, ReactChild } from "react";
+import React, {
+  useState,
+  useReducer,
+  useCallback,
+  useRef,
+  ReactChild,
+} from "react";
 import { PanInfo } from "framer-motion";
 import { Frame, Scroll } from "framer";
 import useIsomorphicLayoutEffect from "hooks/useIsomorphicLayoutEffect";
 import { VirtualDragAndDropListProps, VirtualListItemProps } from "./types";
+
+type VirtualDragAndDropState = {
+  offset: number;
+  overfetch: number;
+  itemsLength: number;
+  itemSize: number;
+  windowSize: number;
+  window: [number, number];
+};
+
+type VirtualDragAndDropActions =
+  | { type: "resize"; windowSize: number }
+  | { type: "scroll"; scrollOffset: number };
+
+function init({
+  overfetch,
+  itemsLength,
+  itemSize,
+  scrollDirection,
+  width,
+  height,
+}): VirtualDragAndDropState {
+  const sizeProp = scrollDirection === "y" ? height : width;
+  const windowSize = Number.isInteger(sizeProp)
+    ? (sizeProp as number)
+    : /^\d+px$/.test(sizeProp as string)
+    ? Number.parseInt(sizeProp as string, 10)
+    : 0;
+  return {
+    offset: 0,
+    overfetch,
+    itemsLength,
+    itemSize,
+    windowSize,
+    window: calculateWindow(0, overfetch, itemsLength, itemSize, windowSize),
+  };
+}
+
+function reducer(state, action: VirtualDragAndDropActions) {
+  switch (action.type) {
+    case "resize":
+      const { windowSize } = action;
+      return {
+        ...state,
+        windowSize,
+        window: calculateWindow(
+          state.scrollOffset,
+          state.overfetch,
+          state.itemsLength,
+          state.itemSize,
+          windowSize
+        ),
+      };
+    case "scroll":
+      const { scrollOffset } = action;
+      return {
+        ...state,
+        scrollOffset,
+        window: calculateWindow(
+          scrollOffset,
+          state.overfetch,
+          state.itemsLength,
+          state.itemSize,
+          state.windowSize
+        ),
+      };
+
+    default:
+      throw new Error();
+  }
+}
 
 export function VirtualDragAndDropList<T>({
   items,
@@ -28,34 +105,39 @@ export function VirtualDragAndDropList<T>({
     dragOffset: 0,
   });
 
-  const [windowSize, setWindowSize] = useState((): number => {
-    const sizeProp = scrollDirection === "y" ? width : height;
-    if (Number.isInteger(sizeProp)) return sizeProp as number;
-    const strSize = sizeProp as string;
-    if (/^\d+px$/.test(strSize)) return Number.parseInt(strSize, 10);
-    return 0;
-  });
+  const [state, dispatch] = useReducer(
+    reducer,
+    {
+      overfetch,
+      itemsLength: items.length,
+      itemSize,
+      scrollDirection,
+      width,
+      height,
+    },
+    init
+  );
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const [[start, end], setWindow] = useState(() =>
-    calculateWindow(0, overfetch, items.length, itemSize, windowSize)
-  );
-
   useIsomorphicLayoutEffect(() => {
-    if (windowSize) return;
+    if (state.windowSize) return;
     if (!ref.current) return;
     const parent = ref.current.parentNode.parentNode as HTMLDivElement;
-    setWindowSize(
-      scrollDirection === "y" ? parent.offsetHeight : parent.offsetWidth
-    );
+    dispatch({
+      type: "resize",
+      windowSize:
+        scrollDirection === "y" ? parent.offsetHeight : parent.offsetWidth,
+    });
     // @ts-ignore
     if (!ResizeObserver) return;
     //@ts-ignore
     const resizeObserver = new ResizeObserver((_) => {
-      setWindowSize(
-        scrollDirection === "y" ? parent.offsetHeight : parent.offsetWidth
-      );
+      dispatch({
+        type: "resize",
+        windowSize:
+          scrollDirection === "y" ? parent.offsetHeight : parent.offsetWidth,
+      });
     });
 
     resizeObserver.observe(parent);
@@ -63,7 +145,7 @@ export function VirtualDragAndDropList<T>({
       // @ts-ignore
       resizeObserver.unobserve(parent);
     };
-  }, [windowSize, setWindowSize, scrollDirection, ref]);
+  }, [scrollDirection, ref]);
 
   const handleScroll = useCallback(
     (info: PanInfo) => {
@@ -182,6 +264,7 @@ export function VirtualDragAndDropList<T>({
       direction={direction}
       width={width}
       height={height}
+      position="relative"
       onScroll={handleScroll}
     >
       <Frame
@@ -197,28 +280,6 @@ export function VirtualDragAndDropList<T>({
     </Scroll>
   );
 }
-
-export const findIndex = (
-  i: number,
-  offset: number,
-  length: number,
-  swapDistance: number
-) => {
-  let target = i;
-
-  // If moving down
-  if (offset > 0) {
-    if (i === length - 1) return i;
-    if (offset > swapDistance) target = i + 1;
-  }
-  // If moving up
-  else if (offset < 0) {
-    if (i === 0) return i;
-    if (offset < -swapDistance) target = i - 1;
-  }
-
-  return Math.min(Math.max(target, 0), length);
-};
 
 const calculateWindow = (
   offset: number,

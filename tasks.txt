@@ -1,0 +1,89 @@
+- Create NextJs project [infrastructure]
+  - TypeScript support
+  - Add code quality check [infrastructure]
+  - PWA support [infrastructure]
+  - Testing integration [infrastructure]
+    - Jest [testing]
+    - React Testing Library [testing]
+    - Cypress [testing]
+  - Storybook support [infrastructure]
+  - Translation [interface]
+  - Validate environment variables [infrastructure]
+- Github integration [infrastructure]
+  - Add actions [infrastructure]
+  - Templates [documentation]
+    - New issue [documentation]
+    - Contributing [documentation]
+    - Code of conduct [documentation]
+    - Architecture [documentation] (ARCHITECTURE.md that describes the structure of the project)
+- Authentication support [server] (next-auth)
+- GraphQL support [server]
+  - Relay support [server]
+  - TypeORM for database [server]
+  - Dataloader [server]
+  - User entity [server]
+  - Task entity [server]
+  - Sorting [server]
+  - Filtering [server]
+  - Subscriptions [server] (https://stackoverflow.com/questions/62371284/apollo-server-with-subscriptions-used-inside-next-js-api-routes-websockets-trou)
+  - Allow unregistered users to see default data, but forbid mutations [server]
+- Seed data [server]
+- UI and UX [interface]
+  - Setup Material UI [interface] (Including SSR integration)
+  - Framer Motion for animations
+  - Create layout [interface]
+  - Create common wrappers for UI / testng [interface, testing]
+  - Dark mode support [interface]
+- State management providers
+  - React Context + useReducer hook
+  - Redux
+  - Recoil
+  - MobX
+  - React Query
+  - Apollo
+  - URQL
+  - Relay
+  - SWR
+  - RxJs
+  - XState
+- Different color pallete per state management library [interface]
+- React Native support [native]
+- Animations [interface]
+  - Slide left / right on switching tabs [interface]
+  - Open task like in Google Keep [interface]
+  - Delete will scale down, then fade [interface]
+- Dashboard [interface]
+  - Display charts [interface]
+  - Demo users should see analytics
+- Tasks [interface]
+  - Virtual list [interface]
+  - Drag and drop support [interface] (Subtasks should have separate indexes)
+  - infinite loading [interface]
+  - Markdown support for description [interface]
+  - Colors support [interface]
+  - Filters [interface]
+- Notes [interface]
+  - Markdown support
+- Contacts [interface]
+- Chat [interface]
+- Shop [interface]
+- Blog [interface, documentation]
+  - Describe how everything is built [documentation]
+  - Comparison article for all libraries [documentation]
+- Global search [interface] (All tasks and subtasks will be displayed flattened, subtasks will use slightly different style. No drag and drop.)
+  - Display pop up with results with link to full search page
+- Docker support [infrastructure]
+- Use permissive config [infrastructure]
+- Testing features [testing]
+  - Tasks [testing]
+  - Shop [testing]
+- End to end testing [testing]
+  - Tasks [testing]
+  - Shop [testing]
+- Post on social media about the project [media]
+  - Redit [media]
+  - Twitter [media]
+  - Hacker News [media]
+- Web Assembly support
+- Analytics
+- https://dev.to/gauravadhikari1997/creating-mentions-and-hashtags-in-reactjs-1el6

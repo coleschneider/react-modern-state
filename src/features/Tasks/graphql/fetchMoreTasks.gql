@@ -7,14 +7,12 @@ query fetchMoreTasks($after: String, $first: Int) {
         description
         tags
         color
-        startDate
         dueDate
         remindMeAt
         completedAt
         index
       }
     }
-    totalCount
     pageInfo {
       endCursor
       hasNextPage
